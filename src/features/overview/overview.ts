@@ -1,0 +1,164 @@
+import { Component, computed, inject, signal } from "@angular/core";
+import { toSignal } from "@angular/core/rxjs-interop";
+import { StatCard } from "../../app/shared/stat-card/stat-card";
+import { ChartCard } from "../../app/shared/chart-card/chart-card";
+import { MetricsDataService } from "../../app/core/services/metrics-data.service";
+import { EChartsCoreOption } from "echarts/types/dist/core";
+
+@Component({
+    selector: 'app-overview',
+    standalone: true,
+    imports: [StatCard, ChartCard],
+    template:`
+    <header>
+        <h1>Overview</h1>
+        <p>App usage sessions, engagement, and telemetry across the fleet.</p>
+    </header>
+
+    @if (stats(); as s) {
+        <section class="stat-grid">
+            <app-stat-card label="Total Sessions" [value]="s.totalSessions.toString()" icon="〰️" accent="violet" />
+            <app-stat-card label="Active Users" [value]="s.activeUsers.toString()" icon="☺" accent="teal" />
+            <app-stat-card label="Avg Session" [value]="fmtDuration(s.avgSessionSeconds)" icon="⏱" accent="amber" />
+            <app-stat-card label="Foreground Time" [value]="fmtDuration(s.foregroundSeconds)" icon="🖥" accent="green" />
+            <app-stat-card label="Force-close Rate" [value]="pct(s.forceCloseRate)" icon="⚠" accent="rose" />
+        </section>
+    }
+
+    <section class="chart-row chart-row--single">
+      <app-chart-card
+        title="Sessions & foreground time"
+        subtitle="Trend across the selected date range"
+        [options]="trendOptions()"
+      />
+    </section>
+
+    <section class="chart-row">
+      <app-chart-card title="Event mix" subtitle="Breakdown of captured event types" [options]="eventMixOptions()" />
+      <app-chart-card title="Network type" subtitle="How events reached the backend" [options]="networkOptions()" />
+    </section>
+
+    <section class="chart-row">
+      <app-chart-card title="Top apps" subtitle="Session count by app" [options]="topAppsOptions()" />
+      <app-chart-card title="Top stations" subtitle="Where usage is happening" [options]="topStationsOptions()" />
+    </section>
+    `,
+    styles: [`
+        .page-head h1 { margin: 0; font-size: 28px; font-weight: 700; color: #0f172a; }
+        .page-head p { margin: 6px 0 22px; color: #6b7280; }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .chart-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .chart-row--single { grid-template-columns: 1fr; }
+        @media (max-width: 1100px) {
+            .stat-grid { grid-template-columns: repeat(2, 1fr); }
+            .chart-row { grid-template-columns: 1fr; }
+        }    
+    `]
+})
+
+export class Overview {
+  private readonly data = inject(MetricsDataService);
+
+  readonly stats = toSignal(this.data.getOverviewStats());
+  private readonly trend = toSignal(this.data.getSessionTrend(), { initialValue: [] });
+  private readonly eventMix = toSignal(this.data.getEventMix(), { initialValue: [] });
+  private readonly network = toSignal(this.data.getNetworkTypes(), { initialValue: [] });
+  private readonly topApps = toSignal(this.data.getTopApps(), { initialValue: [] });
+  private readonly topStations = toSignal(this.data.getTopStations(), { initialValue: [] });
+
+  private readonly palette = ['#16a34a', '#7c6cf5', '#f43f5e', '#14b8a6', '#f59e0b'];
+
+  readonly trendOptions = computed<EChartsCoreOption>(() => {
+    const t = this.trend();
+    return {
+      tooltip: { trigger: 'axis' },
+      legend: { data: ['Sessions', 'Foreground min'], top: 0, left: 0 },
+      grid: { left: 40, right: 40, top: 40, bottom: 30 },
+      xAxis: { type: 'category', boundaryGap: false, data: t.map((p) => p.date) },
+      yAxis: [{ type: 'value' }, { type: 'value' }],
+      series: [
+        {
+          name: 'Sessions',
+          type: 'line',
+          smooth: true,
+          areaStyle: { opacity: 0.25 },
+          itemStyle: { color: '#7c6cf5' },
+          data: t.map((p) => p.sessions),
+        },
+        {
+          name: 'Foreground min',
+          type: 'line',
+          smooth: true,
+          yAxisIndex: 1,
+          lineStyle: { type: 'dashed' },
+          itemStyle: { color: '#14b8a6' },
+          data: t.map((p) => p.foregroundMinutes),
+        },
+      ],
+    };
+  });
+
+  readonly eventMixOptions = computed<EChartsCoreOption>(() => {
+    const d = this.eventMix();
+    const total = d.reduce((sum, x) => sum + x.value, 0);
+    return {
+      tooltip: { trigger: 'item' },
+      legend: { bottom: 0, left: 'center' },
+      series: [
+        {
+          type: 'pie',
+          radius: ['55%', '78%'],
+          center: ['50%', '45%'],
+          label: { show: true, position: 'center', formatter: `${total}\nevents`, fontSize: 20, fontWeight: 700 },
+          data: d.map((x, i) => ({ name: x.label, value: x.value, itemStyle: { color: this.palette[i % this.palette.length] } })),
+        },
+      ],
+    };
+  });
+
+  readonly networkOptions = computed<EChartsCoreOption>(() => this.barOptions(this.network(), false));
+  readonly topAppsOptions = computed<EChartsCoreOption>(() => this.barOptions(this.topApps(), true, '#7c6cf5'));
+  readonly topStationsOptions = computed<EChartsCoreOption>(() => this.barOptions(this.topStations(), true, '#14b8a6'));
+
+  private barOptions(d: { label: string; value: number }[], horizontal: boolean, color = '#7c6cf5'): EChartsCoreOption {
+    const cat = { type: 'category', data: d.map((x) => x.label) } as const;
+    const val = { type: 'value' } as const;
+    return {
+      tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+      grid: { left: horizontal ? 90 : 40, right: 30, top: 20, bottom: 30 },
+      xAxis: horizontal ? val : cat,
+      yAxis: horizontal ? { ...cat, inverse: true } : val,
+      series: [
+        {
+          type: 'bar',
+          data: d.map((x) => x.value),
+          itemStyle: { color, borderRadius: horizontal ? [0, 6, 6, 0] : [6, 6, 0, 0] },
+          barWidth: '55%',
+          label: { show: horizontal, position: 'right' },
+        },
+      ],
+    };
+  }
+    fmtDuration(totalSeconds: number): string {
+        const h = Math.floor(totalSeconds / 3600);
+        const m = Math.floor((totalSeconds % 3600) / 60);
+        const s = totalSeconds % 60;
+        if (h > 0) return `${h}h ${m}m`;
+        if (m > 0) return `${m}m ${s}s`;
+        return `${s}s`;
+    }
+
+    pct(rate: number): string {
+        return `${(rate * 100).toFixed(1)}%`;
+    }
+}
