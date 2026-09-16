@@ -1,5 +1,5 @@
 export type DateRange = '24h' | '7d' | '30d' | 'all';
-export type SessionStatus = 'active' | 'ended' | 'force-closed';
+export type SessionStatus = 'Active' | 'Ended' | 'Force-closed' | 'Crash';
 export type NetworkType = 'wifi' | 'cellular' | 'wired' | 'none';
 export type EventType = 'appOpen' | 'appBackgrounded' | 'forceCloseCheck' | 'sessionEnd';
 export type Platform = 'iOS' | 'Web'
@@ -106,6 +106,7 @@ export interface AppUsageSessionDto {
     updatedAt: string;
     updatedBy: string;
     version: number;
+    status: SessionStatus;
 }
 export interface AppUsageSummaryDto {
     appName: string;

@@ -1,5 +1,5 @@
 
-import { AppUsageSessionDto, AppUsageSummaryDto, Breakdown, OverviewStats } from '../models/metrics.models'
+import { AppUsageSessionDto, AppUsageSummaryDto, Breakdown, OverviewStats, SessionStatus } from '../models/metrics.models'
 import { TrendPoint } from '../models/metrics.models';
 
 function countBy<T>(items: T[], key: (i: T) => string | null | undefined): Breakdown[] {
@@ -51,4 +51,14 @@ export function toSessionTrend(session: AppUsageSessionDto[]): TrendPoint[] {
     return [...byDay.entries()]
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([day, v]) => ({ date: day, sessions: v.sessions, foregroundMinutes: Math.round(v.seconds / 60) }));
+}
+
+export function deriveSessionStatus(session: AppUsageSessionDto): SessionStatus {
+    const last = session.events?.length ? session.events.reduce((a,b) => new Date(b.timestamp) >= new Date(a.timestamp) ? b : a) : undefined;
+    switch (last?.eventType) {
+        case 'sessionEnd': return 'Ended';
+        case 'forceCloseCheck': return 'Force-closed';
+        case 'appCrash': return 'Crash';
+        default: return 'Active';
+    }
 }

@@ -6,5 +6,9 @@ export const routes: Routes = [
         path: 'overview',
         loadComponent: () => import('../features/overview/overview').then(m => m.Overview)
     },
+    {
+        path: 'sessions',
+        loadComponent: () => import('../features/sessions/sessions').then(m => m.Sessions)
+    },
     { path: '**', redirectTo: 'overview' }
 ];
