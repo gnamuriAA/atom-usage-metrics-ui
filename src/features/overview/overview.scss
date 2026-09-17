@@ -1,0 +1,19 @@
+.page-head h1 { margin: 0; font-size: 28px; font-weight: 700; color: #0f172a; }
+.page-head p { margin: 6px 0 22px; color: #6b7280; }
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+.chart-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+.chart-row--single { grid-template-columns: 1fr; }
+@media (max-width: 1100px) {
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .chart-row { grid-template-columns: 1fr; }
+} 
