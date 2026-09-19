@@ -1,5 +1,5 @@
 
-import { AppUsageSessionDto, AppUsageSessionFilter, AppUsageSummaryDto, Breakdown, DateRange, OverviewStats, SessionStatus } from '../models/metrics.models'
+import { AppUsageEventDto, AppUsageSessionDto, AppUsageSessionFilter, AppUsageSummaryDto, Breakdown, DateRange, EventRow, OverviewStats, SessionStatus } from '../models/metrics.models'
 import { TrendPoint } from '../models/metrics.models';
 
 const RANGE_DAYS: Record<Exclude<DateRange, 'all'>, number> = { '24h': 1, '7d': 7, '30d': 30 };
@@ -77,4 +77,35 @@ export function deriveSessionStatus(session: AppUsageSessionDto): SessionStatus 
         case 'appCrash': return 'Crash';
         default: return 'Active';
     }
+}
+
+// Foreground span of an event, when both foreground/background endpoints exist.
+export function eventSegmentSeconds(e: AppUsageEventDto): number | null {
+    if (!e.foregroundTimestamp || !e.backgroundTimestamp) return null;
+    const secs = (new Date(e.backgroundTimestamp).getTime() - new Date(e.foregroundTimestamp).getTime()) / 1000;
+    return secs > 0 ? secs : null;
+}
+
+export function toEventRows(sessions: AppUsageSessionDto[]): EventRow[] {
+    return sessions
+        .flatMap((s) =>
+            s.events.map((e) => ({
+                eventId: e.eventId,
+                timestamp: e.timestamp,
+                eventType: e.eventType,
+                appName: s.appName,
+                networkType: e.networkType,
+                segmentSeconds: eventSegmentSeconds(e),
+                sessionId: s.sessionId,
+            }))
+        )
+        .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+}
+
+export function toEventsPerHour(rows: EventRow[]): number[] {
+    const buckets = new Array<number>(24).fill(0);
+    for (const r of rows) {
+        buckets[new Date(r.timestamp).getHours()] += 1;
+    }
+    return buckets;
 }

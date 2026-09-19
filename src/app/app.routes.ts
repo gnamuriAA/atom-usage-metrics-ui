@@ -10,5 +10,9 @@ export const routes: Routes = [
         path: 'sessions',
         loadComponent: () => import('../features/sessions/sessions').then(m => m.Sessions)
     },
+    {
+        path: 'events',
+        loadComponent: () => import('../features/events/events').then(m => m.Events)
+    },
     { path: '**', redirectTo: 'overview' }
 ];

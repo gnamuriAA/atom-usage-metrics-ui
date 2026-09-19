@@ -1,0 +1,85 @@
+<header class="page-head">
+    <div>
+        <h1>Events</h1>
+        <p>Every emitted event with type, network, and timing.</p>
+    </div>
+    <div class="page-filters">
+        <label class="filter-field">
+            <span class="filter-field__label">Event type</span>
+            <select class="filter-select" [value]="eventType()" (change)="onType($event)">
+                <option value="">All event types</option>
+                @for (t of eventTypes(); track t) {
+                    <option [value]="t">{{ t }}</option>
+                }
+            </select>
+        </label>
+        <label class="filter-field">
+            <span class="filter-field__label">Network</span>
+            <select class="filter-select cap" [value]="network()" (change)="onNetwork($event)">
+                <option value="">All networks</option>
+                @for (n of networks(); track n) {
+                    <option [value]="n">{{ n }}</option>
+                }
+            </select>
+        </label>
+    </div>
+</header>
+
+@if (!hasToken()) {
+    <section class="state">
+        <span class="state__icon">🔑</span>
+        <h2>Access token required</h2>
+        <p>Please provide your API token to load events.</p>
+    </section>
+} @else if (loading()) {
+    <section class="state">
+        <span class="spinner" aria-hidden="true"></span>
+        <p>Loading events…</p>
+    </section>
+} @else {
+    <section class="chart-wrap">
+        <app-chart-card
+            title="Events per hour"
+            subtitle="Distribution across the day (local time)"
+            [options]="perHourOptions()"
+        />
+    </section>
+
+    <section class="table-card">
+        <div class="table-wrap">
+            <table class="event-table">
+                <thead>
+                    <tr>
+                        <th>TIMESTAMP</th>
+                        <th>EVENT</th>
+                        <th>APP</th>
+                        <th>NETWORK</th>
+                        <th class="num">SEGMENT</th>
+                        <th>SESSION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (e of rows(); track e.eventId) {
+                        <tr>
+                            <td>{{ e.timestamp | date: 'MMM d, hh:mm a' }}</td>
+                            <td>
+                                <span
+                                    class="ev-badge"
+                                    [style.color]="eventColor(e.eventType)"
+                                    [style.background]="eventTint(e.eventType)"
+                                >{{ e.eventType }}</span>
+                            </td>
+                            <td>{{ e.appName }}</td>
+                            <td class="cap">{{ e.networkType ?? '—' }}</td>
+                            <td class="num">{{ fmtSegment(e.segmentSeconds) }}</td>
+                            <td class="sess">{{ e.sessionId }}</td>
+                        </tr>
+                    } @empty {
+                        <tr><td class="empty" colspan="6">No events found.</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="table-card__foot">{{ rows().length }} events</div>
+    </section>
+}
