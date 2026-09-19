@@ -1,0 +1,45 @@
+ <header>
+        <h1>Overview</h1>
+        <p>App usage sessions, engagement, and telemetry across the fleet.</p>
+    </header>
+
+    @if (!hasToken()) {
+        <section class="state state--info">
+            <span class="state__icon">🔑</span>
+            <h2>Access token required</h2>
+            <p>Please provide your API token to load usage metrics.</p>
+        </section>
+    } @else if (loading()) {
+        <section class="state state--loading">
+            <span class="spinner" aria-hidden="true"></span>
+            <p>Loading usage metrics…</p>
+        </section>
+    } @else {
+         @if (stats(); as s) {
+            <section class="stat-grid">
+                <app-stat-card label="Total Sessions" [value]="s.totalSessions.toString()" iconSrc="assets/heartbeat_icon.svg" accent="violet" />
+                <app-stat-card label="Active Users" [value]="s.activeUsers.toString()" iconSrc="assets/users_icon.svg" accent="teal" />
+                <app-stat-card label="Avg Session" [value]="fmtDuration(s.avgSessionSeconds)" iconSrc="assets/clock_icon.svg" accent="amber" />
+                <app-stat-card label="Foreground Time" [value]="fmtDuration(s.foregroundSeconds)" iconSrc="assets/devices_icon.svg" accent="green" />
+                <app-stat-card label="Force-close Rate" [value]="pct(s.forceCloseRate)" iconSrc="assets/warning_icon.svg" accent="rose" />
+            </section>
+        }
+
+        <section class="chart-row chart-row--single">
+        <app-chart-card
+            title="Sessions & foreground time"
+            subtitle="Trend across the selected date range"
+            [options]="trendOptions()"
+        />
+        </section>
+
+        <section class="chart-row">
+            <app-chart-card title="Event mix" subtitle="Breakdown of captured event types" [options]="eventMixOptions()" />
+            <app-chart-card title="Network type" subtitle="How events reached the backend" [options]="networkOptions()" />
+        </section>
+
+        <section class="chart-row">
+            <app-chart-card title="Top apps" subtitle="Session count by app" [options]="topAppsOptions()" />
+            <app-chart-card title="Top stations" subtitle="Where usage is happening" [options]="topStationsOptions()" />
+        </section>
+    }

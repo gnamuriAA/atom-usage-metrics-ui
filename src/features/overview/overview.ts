@@ -1,86 +1,65 @@
 import { Component, computed, inject } from "@angular/core";
-import { toSignal } from "@angular/core/rxjs-interop";
+import { toSignal, toObservable } from "@angular/core/rxjs-interop";
 import { StatCard } from "../../app/shared/stat-card/stat-card";
 import { ChartCard } from "../../app/shared/chart-card/chart-card";
 import { MetricsDataService } from "../../app/core/services/metrics-data.service";
 import { EChartsCoreOption } from "echarts/types/dist/core";
 import { UsageApiService } from "../../app/core/services/usage-api.service";
-import { forkJoin } from "rxjs";
+import { AuthService } from "../../app/core/services/auth.service";
+import { AppUsageSessionDto, AppUsageSummaryDto } from "../../app/core/models/metrics.models";
+import { catchError, forkJoin, of, startWith, map, switchMap, Observable } from "rxjs";
 import {
-    toOverviewStats, toSessionTrend, toEventMix, toNetworkTypes, toTopApps, toTopStations
+    toOverviewStats, toSessionTrend, toEventMix, toNetworkTypes, toTopApps, toTopStations, toSessionFilter
 } from "../../app/core/util/usage-mappers"
+import { FilterStateService } from "../../app/core/services/filter-state.service";
+
+type OverviewSource = {
+    sessions: AppUsageSessionDto[];
+    summary: AppUsageSummaryDto[];
+    loading: boolean;
+};
 
 @Component({
     selector: 'app-overview',
     standalone: true,
     imports: [StatCard, ChartCard],
-    template:`
-    <header>
-        <h1>Overview</h1>
-        <p>App usage sessions, engagement, and telemetry across the fleet.</p>
-    </header>
-
-    @if (stats(); as s) {
-        <section class="stat-grid">
-            <app-stat-card label="Total Sessions" [value]="s.totalSessions.toString()" icon="〰️" accent="violet" />
-            <app-stat-card label="Active Users" [value]="s.activeUsers.toString()" icon="☺" accent="teal" />
-            <app-stat-card label="Avg Session" [value]="fmtDuration(s.avgSessionSeconds)" icon="⏱" accent="amber" />
-            <app-stat-card label="Foreground Time" [value]="fmtDuration(s.foregroundSeconds)" icon="🖥" accent="green" />
-            <app-stat-card label="Force-close Rate" [value]="pct(s.forceCloseRate)" icon="⚠" accent="rose" />
-        </section>
-    }
-
-    <section class="chart-row chart-row--single">
-      <app-chart-card
-        title="Sessions & foreground time"
-        subtitle="Trend across the selected date range"
-        [options]="trendOptions()"
-      />
-    </section>
-
-    <section class="chart-row">
-      <app-chart-card title="Event mix" subtitle="Breakdown of captured event types" [options]="eventMixOptions()" />
-      <app-chart-card title="Network type" subtitle="How events reached the backend" [options]="networkOptions()" />
-    </section>
-
-    <section class="chart-row">
-      <app-chart-card title="Top apps" subtitle="Session count by app" [options]="topAppsOptions()" />
-      <app-chart-card title="Top stations" subtitle="Where usage is happening" [options]="topStationsOptions()" />
-    </section>
-    `,
-    styles: [`
-        .page-head h1 { margin: 0; font-size: 28px; font-weight: 700; color: #0f172a; }
-        .page-head p { margin: 6px 0 22px; color: #6b7280; }
-        .stat-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-        .chart-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 16px;
-        }
-        .chart-row--single { grid-template-columns: 1fr; }
-        @media (max-width: 1100px) {
-            .stat-grid { grid-template-columns: repeat(2, 1fr); }
-            .chart-row { grid-template-columns: 1fr; }
-        }    
-    `]
+    templateUrl: './overview.html',
+    styleUrls: ['./overview.scss']
 })
 
 export class Overview {
     private readonly api = inject(UsageApiService);
+    private readonly auth = inject(AuthService);
+    private readonly filterState = inject(FilterStateService);
+
+    readonly hasToken = computed(() => !!this.auth.token());
+
+    // Re-fetches whenever the auth token or the active filter (range/app) changes.
+    private readonly request = computed(() => ({
+        token: this.auth.token(),
+        filter: toSessionFilter(this.filterState.range(), this.filterState.app()),
+    }));
 
     private readonly source = toSignal(
-        forkJoin({
-            sessions: this.api.getAppUsageSessions(),
-            summary: this.api.getAppUsageSummary(),
-        }), 
-        { initialValue: { sessions: [], summary: [] }}
+        toObservable(this.request).pipe(
+            switchMap(({ token, filter }): Observable<OverviewSource> => {
+                if (!token) {
+                    return of({ sessions: [], summary: [], loading: false });
+                }
+                return forkJoin({
+                    sessions: this.api.getAppUsageSessions(filter),
+                    summary: this.api.getAppUsageSummary(filter),
+                }).pipe(
+                    map((data) => ({ ...data, loading: false })),
+                    startWith({ sessions: [], summary: [], loading: true } as OverviewSource),
+                    catchError(() => of<OverviewSource>({ sessions: [], summary: [], loading: false }))
+                );
+            })
+        ),
+        { initialValue: { sessions: [], summary: [], loading: false } as OverviewSource }
     );
+
+    readonly loading = computed(() => this.source().loading);
 
     readonly stats = computed(() => {
         const { summary, sessions } = this.source();

@@ -1,0 +1,64 @@
+.page-head h1 { margin: 0; font-size: 28px; font-weight: 700; color: #0f172a; }
+        .page-head p { margin: 6px 0 22px; color: #6b7280; }
+        .table-card { background: #fff; border: 1px solid #eceef2; border-radius: 14px; overflow: hidden; }
+        .table-card__head { padding: 14px 18px; border-bottom: 1px solid #eceef2; font-size: 13px; font-weight: 600; color: #475569; }
+        .table-wrap { overflow-x: auto; }
+        .session-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .session-table th { text-align: left; padding: 12px 18px; color: #6b7280; font-weight: 600; background: #fafbfc; white-space: nowrap; }
+        .session-table td { padding: 12px 18px; border-top: 1px solid #f1f2f5; color: #0f172a; white-space: nowrap; }
+        .session-table tbody tr:hover td { background: #fafbfe; }
+        .row { cursor: pointer; }
+        .row--active td { background: #f3f0ff; }
+        .num { text-align: center; }
+        .status { text-align: center; }
+        .emp { font-weight: 500; }
+        .emp-id { font-size: 12px; color: #94a3b8; }
+        .empty { text-align: center; color: #94a3b8; padding: 28px; }
+        .app-name { font-weight: 500; }
+        .app-version { font-size: 12px; color: #94a3b8; }
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            line-height: 1.6;
+            text-transform: capitalize;
+            text-align: center;
+        }
+        .badge--Active       { background: #dcfce7; color: #10b981; text-align: center; }
+        .badge--Ended        { background: #dbeafe; color: #3b82f6; text-align: center; }
+        .badge--Force-closed { background: #fef3c7; color: #b45309; text-align: center; }
+        .badge--Crash { font-weight: 500; color: #ef4444; text-align: center; }
+
+        .drawer-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.35); z-index: 40; }
+        .drawer {
+            position: fixed; top: 0; right: 0; height: 100vh; width: 440px; max-width: 92vw;
+            background: #fff; z-index: 41; box-shadow: -12px 0 32px rgba(15, 23, 42, 0.12);
+            padding: 28px 28px 40px; overflow-y: auto; box-sizing: border-box;
+            animation: drawer-in 180ms ease-out;
+        }
+        @keyframes drawer-in { from { transform: translateX(24px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .drawer__close {
+            position: absolute; top: 20px; right: 22px; border: 0; background: transparent;
+            font-size: 18px; color: #94a3b8; cursor: pointer; line-height: 1;
+        }
+        .drawer__close:hover { color: #475569; }
+        .drawer__title { margin: 0; font-size: 18px; font-weight: 700; color: #0f172a; }
+        .drawer__sub { margin: 4px 0 22px; font-size: 13px; color: #94a3b8; }
+        .drawer__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 16px; }
+        .field { display: flex; flex-direction: column; gap: 4px; }
+        .field__k { font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: #94a3b8; font-weight: 600; }
+        .field__v { font-size: 14px; color: #0f172a; font-weight: 500; }
+        .drawer__section { margin: 28px 0 14px; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: #6b7280; font-weight: 700; }
+        .timeline { list-style: none; margin: 0; padding: 0; }
+        .timeline__item { position: relative; display: flex; gap: 12px; padding: 0 0 18px 2px; }
+        .timeline__item:not(:last-child)::before {
+            content: ''; position: absolute; left: 5px; top: 14px; bottom: 0; width: 2px; background: #eceef2;
+        }
+        .timeline__dot { flex: 0 0 auto; width: 12px; height: 12px; margin-top: 3px; border-radius: 50%; z-index: 1; }
+        .timeline__body { flex: 1; min-width: 0; }
+        .timeline__head { display: flex; align-items: center; gap: 10px; }
+        .ev-badge { padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+        .ev-time { font-size: 13px; color: #475569; }
+        .timeline__meta { margin-top: 4px; font-size: 12px; color: #94a3b8; }
+        .timeline__empty { color: #94a3b8; font-size: 13px; }

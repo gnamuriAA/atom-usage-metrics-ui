@@ -7,7 +7,11 @@ import { Component, input } from '@angular/core';
     <div class="stat-card" [class]="'accent-' + accent()">
         <div class="stat-card__header">
             <span class="stat-card__label">{{ label() }}</span>
-            <span class="stat-card__icon">{{ icon() }}</span>
+            @if (iconSrc()) {
+                <img class="stat-card__img" [src]="iconSrc()" alt="" />
+            } @else {
+                <span class="stat-card__icon">{{ icon() }}</span>
+            }
         </div>
         <div class="stat-card__value">{{ value() }}</div>
         </div>
@@ -46,6 +50,12 @@ import { Component, input } from '@angular/core';
             color: #fff;
             background: #7c6cf5;
         }
+        .stat-card__img {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            object-fit: contain;
+        }
         .stat-card__value {
             font-size: 30px;
             font-weight: 700;
@@ -63,5 +73,6 @@ export class StatCard {
   readonly label = input.required<string>();
   readonly value = input.required<string>();
   readonly icon = input<string>('•');
+  readonly iconSrc = input<string>('');
   readonly accent = input<'violet' | 'teal' | 'amber' | 'green' | 'rose'>('violet');
 }

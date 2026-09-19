@@ -1,6 +1,22 @@
 
-import { AppUsageSessionDto, AppUsageSummaryDto, Breakdown, OverviewStats, SessionStatus } from '../models/metrics.models'
+import { AppUsageSessionDto, AppUsageSessionFilter, AppUsageSummaryDto, Breakdown, DateRange, OverviewStats, SessionStatus } from '../models/metrics.models'
 import { TrendPoint } from '../models/metrics.models';
+
+const RANGE_DAYS: Record<Exclude<DateRange, 'all'>, number> = { '24h': 1, '7d': 7, '30d': 30 };
+
+// Maps the UI filter state onto the appUsageSessions query arguments.
+export function toSessionFilter(range: DateRange, app: string | null): AppUsageSessionFilter {
+    const filter: AppUsageSessionFilter = {};
+    if (app) filter.appName = app;
+    if (range !== 'all') {
+        const now = new Date();
+        const after = new Date(now);
+        after.setDate(now.getDate() - RANGE_DAYS[range]);
+        filter.startedAfter = after.toISOString();
+        filter.startedBefore = now.toISOString();
+    }
+    return filter;
+}
 
 function countBy<T>(items: T[], key: (i: T) => string | null | undefined): Breakdown[] {
     const m = new Map<string, number>();

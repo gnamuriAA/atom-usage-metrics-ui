@@ -1,0 +1,88 @@
+<header class="page-head">
+            <h1>Sessions</h1>
+            <p>Every captured session, filterable and searchable</p>
+        </header>
+
+        <section class="table-card">
+            <div class="table-wrap">
+                <table class="session-table"> 
+                    <thead>
+                        <tr> 
+                            <th>STARTED</th>
+                            <th>APP</th>
+                            <th>EMPLOYEE</th>
+                            <th>DEVICE</th>
+                            <th>STATION</th>
+                            <th class="num">FOREGROUND</th>
+                            <th class="num">EVENTS</th>
+                            <th class="status"> STATUS</th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                        @for (session of sessions(); track session._id) {
+                            <tr class="row" [class.row--active]="selected()?._id === session._id" (click)="select(session)"> 
+                                <td>{{ session.sessionStartTime | date: 'MMM d, y, HH:mm' }} </td>
+                                <td>
+                                    <div class="app-name"> {{ session.appName }} </div>
+                                    <div class="app-version"> {{ session.appVersion }} </div>
+                                </td>
+                                <td>
+                                    <div class="emp-id"> {{ session.employeeId }} </div>
+                                    <div class="emp"> {{ session.employeeName }} </div>
+                                </td>
+                                <td> {{ session.deviceSerial }} </td>
+                                <td> {{ session.deviceStationCode }} </td>
+                                <td class="num">{{ fmtDuration(session.foregroundDurationSeconds) }}</td>
+                                <td class="num">{{ session.events.length }}</td>
+                                <td><span class="badge badge--{{ session.status }}">{{ session.status }}</span></td>
+                            </tr>
+                        } @empty {
+                            <tr><td class="empty" colspan="8">No sessions found.</td></tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="table-card__head">
+                    <span>{{ sessions().length }} sessions </span>
+                </div>
+            </div>
+        </section>
+
+        @if (selected(); as s) {
+            <div class="drawer-backdrop" (click)="close()"></div>
+            <aside class="drawer" role="dialog" aria-modal="true">
+                <button class="drawer__close" (click)="close()" aria-label="Close">✕</button>
+                <h2 class="drawer__title">{{ s.appName }} · {{ s.employeeName }}</h2>
+                <p class="drawer__sub">{{ s.sessionId }}</p>
+
+                <div class="drawer__grid">
+                    <div class="field"><span class="field__k">STARTED</span><span class="field__v">{{ s.sessionStartTime | date: 'MMM d, hh:mm a' }}</span></div>
+                    <div class="field"><span class="field__k">ENDED</span><span class="field__v">{{ s.sessionEndTime ? (s.sessionEndTime | date: 'MMM d, hh:mm a') : '—' }}</span></div>
+                    <div class="field"><span class="field__k">FOREGROUND</span><span class="field__v">{{ fmtDuration(s.foregroundDurationSeconds) }}</span></div>
+                    <div class="field"><span class="field__k">STATUS</span><span class="field__v">{{ s.status }}</span></div>
+                    <div class="field"><span class="field__k">DEVICE</span><span class="field__v">{{ s.deviceSerial }}</span></div>
+                    <div class="field"><span class="field__k">STATION</span><span class="field__v">{{ s.deviceStationCode }}</span></div>
+                    <div class="field"><span class="field__k">APP VERSION</span><span class="field__v">{{ s.appVersion }}</span></div>
+                    <div class="field"><span class="field__k">EMPLOYEE ID</span><span class="field__v">{{ s.employeeId }}</span></div>
+                </div>
+
+                <h3 class="drawer__section">EVENT TIMELINE ({{ s.events.length }})</h3>
+                <ul class="timeline">
+                    @for (e of s.events; track e.eventId) {
+                        <li class="timeline__item">
+                            <span class="timeline__dot" [style.background]="eventColor(e.eventType)"></span>
+                            <div class="timeline__body">
+                                <div class="timeline__head">
+                                    <span class="ev-badge" [style.color]="eventColor(e.eventType)" [style.background]="eventTint(e.eventType)">{{ e.eventType }}</span>
+                                    <span class="ev-time">{{ e.timestamp | date: 'MMM d, hh:mm a' }}</span>
+                                </div>
+                                <div class="timeline__meta">
+                                    Network: {{ e.networkType ?? '—' }}@if (segment(e); as seg) { · segment {{ seg }}}
+                                </div>
+                            </div>
+                        </li>
+                    } @empty {
+                        <li class="timeline__empty">No events recorded.</li>
+                    }
+                </ul>
+            </aside>
+        }

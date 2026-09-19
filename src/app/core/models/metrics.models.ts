@@ -10,6 +10,13 @@ export interface Filters {
     station: string | null;  // null = All stations
 }
 
+// Server-side filter args for the appUsageSessions query.
+export interface AppUsageSessionFilter {
+    appName?: string;
+    startedAfter?: string;
+    startedBefore?: string;
+}
+
 export interface OverviewStats {
     totalSessions: number;
     activeUsers: number;
