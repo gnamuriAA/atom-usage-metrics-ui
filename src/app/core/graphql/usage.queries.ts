@@ -1,8 +1,8 @@
 import { gql } from 'apollo-angular';
 
 export const APP_USAGE_SESSIONS = gql`
-query AppUsageSessions {
-  appUsageSessions {
+query AppUsageSessions($filter: AppUsageSessionFilter) {
+  appUsageSessions(filter: $filter) {
     _id
     sessionId
     appName
@@ -37,8 +37,8 @@ query AppUsageSessions {
 `;
 
 export const APP_USAGE_SUMMARY = gql`
-query AppUsageSummary {
-  appUsageSummary {
+query AppUsageSummary($filter: AppUsageSessionFilter) {
+  appUsageSummary(filter: $filter) {
     appName
     appId
     totalForegroundSeconds

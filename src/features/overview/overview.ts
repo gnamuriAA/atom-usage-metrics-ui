@@ -9,8 +9,9 @@ import { AuthService } from "../../app/core/services/auth.service";
 import { AppUsageSessionDto, AppUsageSummaryDto } from "../../app/core/models/metrics.models";
 import { catchError, forkJoin, of, startWith, map, switchMap, Observable } from "rxjs";
 import {
-    toOverviewStats, toSessionTrend, toEventMix, toNetworkTypes, toTopApps, toTopStations
+    toOverviewStats, toSessionTrend, toEventMix, toNetworkTypes, toTopApps, toTopStations, toSessionFilter
 } from "../../app/core/util/usage-mappers"
+import { FilterStateService } from "../../app/core/services/filter-state.service";
 
 type OverviewSource = {
     sessions: AppUsageSessionDto[];
@@ -29,18 +30,25 @@ type OverviewSource = {
 export class Overview {
     private readonly api = inject(UsageApiService);
     private readonly auth = inject(AuthService);
+    private readonly filterState = inject(FilterStateService);
 
     readonly hasToken = computed(() => !!this.auth.token());
 
+    // Re-fetches whenever the auth token or the active filter (range/app) changes.
+    private readonly request = computed(() => ({
+        token: this.auth.token(),
+        filter: toSessionFilter(this.filterState.range(), this.filterState.app()),
+    }));
+
     private readonly source = toSignal(
-        toObservable(this.auth.token).pipe(
-            switchMap((token): Observable<OverviewSource> => {
+        toObservable(this.request).pipe(
+            switchMap(({ token, filter }): Observable<OverviewSource> => {
                 if (!token) {
                     return of({ sessions: [], summary: [], loading: false });
                 }
                 return forkJoin({
-                    sessions: this.api.getAppUsageSessions(),
-                    summary: this.api.getAppUsageSummary(),
+                    sessions: this.api.getAppUsageSessions(filter),
+                    summary: this.api.getAppUsageSummary(filter),
                 }).pipe(
                     map((data) => ({ ...data, loading: false })),
                     startWith({ sessions: [], summary: [], loading: true } as OverviewSource),
