@@ -14,5 +14,9 @@ export const routes: Routes = [
         path: 'events',
         loadComponent: () => import('../features/events/events').then(m => m.Events)
     },
+    {
+        path: 'devices',
+        loadComponent: () => import('../features/devices/devices').then(m => m.Devices)
+    },
     { path: '**', redirectTo: 'overview' }
 ];

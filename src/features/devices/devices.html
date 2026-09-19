@@ -1,0 +1,62 @@
+<header class="page-head">
+    <h1>Devices</h1>
+    <p>Fleet rollup: sessions, foreground time, and last activity per device.</p>
+</header>
+
+@if (!hasToken()) {
+    <section class="state">
+        <span class="state__icon">🔑</span>
+        <h2>Access token required</h2>
+        <p>Please provide your API token to load devices.</p>
+    </section>
+} @else if (loading()) {
+    <section class="state">
+        <span class="spinner" aria-hidden="true"></span>
+        <p>Loading devices…</p>
+    </section>
+} @else {
+    <section class="table-card">
+        <div class="table-wrap">
+            <table class="device-table">
+                <thead>
+                    <tr>
+                        <th>DEVICE</th>
+                        <th>STATION</th>
+                        <th>PLATFORM</th>
+                        <th class="num">SESSIONS</th>
+                        <th class="num">FOREGROUND</th>
+                        <th>LAST SEEN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (d of devices(); track d.deviceId) {
+                        <tr>
+                            <td>
+                                <div class="device">
+                                    <span class="device__ic" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6">
+                                            <rect x="7" y="3" width="10" height="18" rx="2" />
+                                            <line x1="10.5" y1="18" x2="13.5" y2="18" />
+                                        </svg>
+                                    </span>
+                                    <div>
+                                        <div class="device__serial">{{ d.serialNumber }}</div>
+                                        <div class="device__os">OS {{ d.osVersion ?? '—' }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{ d.stationCode ?? '—' }}</td>
+                            <td>{{ d.osType }}</td>
+                            <td class="num">{{ d.sessionCount }}</td>
+                            <td class="num">{{ fmtDuration(d.totalForegroundSeconds) }}</td>
+                            <td>{{ d.lastSeen ? (d.lastSeen | date: 'MMM d, hh:mm a') : '—' }}</td>
+                        </tr>
+                    } @empty {
+                        <tr><td class="empty" colspan="6">No devices found.</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="table-card__foot">{{ devices().length }} devices</div>
+    </section>
+}

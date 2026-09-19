@@ -50,3 +50,18 @@ query AppUsageSummary($filter: AppUsageSessionFilter) {
   }
 }
 `;
+
+export const DEVICE_USAGE_SUMMARY = gql`
+query DeviceUsageSummary($filter: DeviceFilter, $startedAfter: DateTime, $startedBefore: DateTime) {
+  deviceUsageSummary(filter: $filter, startedAfter: $startedAfter, startedBefore: $startedBefore) {
+    deviceId
+    serialNumber
+    stationCode
+    osType
+    osVersion
+    sessionCount
+    totalForegroundSeconds
+    lastSeen
+  }
+}
+`;
