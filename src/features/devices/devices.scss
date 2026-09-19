@@ -1,0 +1,50 @@
+.page-head h1 { margin: 0; font-size: 28px; font-weight: 700; color: #0f172a; }
+.page-head p { margin: 6px 0 22px; color: #6b7280; }
+
+.table-card { background: #fff; border: 1px solid #eceef2; border-radius: 14px; overflow: hidden; }
+.table-card__foot { padding: 14px 18px; border-top: 1px solid #eceef2; font-size: 13px; font-weight: 600; color: #475569; }
+.table-wrap { overflow-x: auto; }
+.device-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.device-table th { text-align: left; padding: 12px 18px; color: #6b7280; font-weight: 600; background: #fafbfc; white-space: nowrap; }
+.device-table td { padding: 12px 18px; border-top: 1px solid #f1f2f5; color: #0f172a; white-space: nowrap; }
+.device-table tbody tr:hover td { background: #fafbfe; }
+.num { text-align: right; }
+.empty { text-align: center; color: #94a3b8; padding: 28px; }
+
+.device { display: flex; align-items: center; gap: 12px; }
+.device__ic {
+    flex: 0 0 auto;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    background: #f1f5f9;
+    color: #64748b;
+}
+.device__serial { font-weight: 600; color: #0f172a; }
+.device__os { font-size: 12px; color: #94a3b8; }
+
+.state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 60px 20px;
+    background: #fff;
+    border: 1px solid #eceef2;
+    border-radius: 14px;
+    color: #6b7280;
+}
+.state__icon { font-size: 28px; }
+.state h2 { margin: 0; font-size: 18px; color: #0f172a; }
+.state p { margin: 0; }
+.spinner {
+    width: 28px;
+    height: 28px;
+    border: 3px solid #eceef2;
+    border-top-color: #7c6cf5;
+    border-radius: 50%;
+    animation: spin 800ms linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }

@@ -136,3 +136,22 @@ export interface EventRow {
     segmentSeconds: number | null;
     sessionId: string;
 }
+
+// Server-side filter args for the deviceUsageSummary query.
+export interface DeviceFilter {
+    stationCode?: string;
+    isActive?: boolean;
+    serialNumber?: string;
+    deviceType?: string;
+}
+
+export interface DeviceUsageSummaryDto {
+    deviceId: string;
+    serialNumber: string;
+    stationCode: string | null;
+    osType: string;
+    osVersion: string | null;
+    sessionCount: number;
+    totalForegroundSeconds: number;
+    lastSeen: string | null;
+}

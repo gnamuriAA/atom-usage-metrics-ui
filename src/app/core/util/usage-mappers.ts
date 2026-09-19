@@ -1,8 +1,30 @@
 
-import { AppUsageEventDto, AppUsageSessionDto, AppUsageSessionFilter, AppUsageSummaryDto, Breakdown, DateRange, EventRow, OverviewStats, SessionStatus } from '../models/metrics.models'
+import { AppUsageEventDto, AppUsageSessionDto, AppUsageSessionFilter, AppUsageSummaryDto, Breakdown, DateRange, DeviceFilter, EventRow, OverviewStats, SessionStatus } from '../models/metrics.models'
 import { TrendPoint } from '../models/metrics.models';
 
 const RANGE_DAYS: Record<Exclude<DateRange, 'all'>, number> = { '24h': 1, '7d': 7, '30d': 30 };
+
+// deviceUsageSummary takes the date window as top-level args, separate from the filter.
+export interface DeviceQueryArgs {
+    filter: DeviceFilter;
+    startedAfter?: string;
+    startedBefore?: string;
+}
+
+// Maps the UI filter state onto the deviceUsageSummary query arguments.
+export function toDeviceQuery(range: DateRange, station: string | null): DeviceQueryArgs {
+    const filter: DeviceFilter = {};
+    if (station) filter.stationCode = station;
+    const args: DeviceQueryArgs = { filter };
+    if (range !== 'all') {
+        const now = new Date();
+        const after = new Date(now);
+        after.setDate(now.getDate() - RANGE_DAYS[range]);
+        args.startedAfter = after.toISOString();
+        args.startedBefore = now.toISOString();
+    }
+    return args;
+}
 
 // Maps the UI filter state onto the appUsageSessions query arguments.
 export function toSessionFilter(range: DateRange, app: string | null): AppUsageSessionFilter {
