@@ -17,11 +17,11 @@
     } @else {
          @if (stats(); as s) {
             <section class="stat-grid">
-                <app-stat-card label="Total Sessions" [value]="s.totalSessions.toString()" icon="〰️" accent="violet" />
-                <app-stat-card label="Active Users" [value]="s.activeUsers.toString()" icon="☺" accent="teal" />
-                <app-stat-card label="Avg Session" [value]="fmtDuration(s.avgSessionSeconds)" icon="⏱" accent="amber" />
-                <app-stat-card label="Foreground Time" [value]="fmtDuration(s.foregroundSeconds)" icon="🖥" accent="green" />
-                <app-stat-card label="Force-close Rate" [value]="pct(s.forceCloseRate)" icon="⚠" accent="rose" />
+                <app-stat-card label="Total Sessions" [value]="s.totalSessions.toString()" iconSrc="assets/heartbeat_icon.svg" accent="violet" />
+                <app-stat-card label="Active Users" [value]="s.activeUsers.toString()" iconSrc="assets/users_icon.svg" accent="teal" />
+                <app-stat-card label="Avg Session" [value]="fmtDuration(s.avgSessionSeconds)" iconSrc="assets/clock_icon.svg" accent="amber" />
+                <app-stat-card label="Foreground Time" [value]="fmtDuration(s.foregroundSeconds)" iconSrc="assets/devices_icon.svg" accent="green" />
+                <app-stat-card label="Force-close Rate" [value]="pct(s.forceCloseRate)" iconSrc="assets/warning_icon.svg" accent="rose" />
             </section>
         }
 
