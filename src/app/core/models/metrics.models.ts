@@ -125,3 +125,14 @@ export interface AppUsageSummaryDto {
     forceCloseCount: number;
     uniqueUserCount: number;
 }
+
+// Flattened event (joined with its parent session) for the Events screen.
+export interface EventRow {
+    eventId: string;
+    timestamp: string;
+    eventType: string;
+    appName: string;
+    networkType: string | null;
+    segmentSeconds: number | null;
+    sessionId: string;
+}

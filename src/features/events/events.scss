@@ -1,0 +1,67 @@
+.page-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 22px;
+}
+.page-head h1 { margin: 0; font-size: 28px; font-weight: 700; color: #0f172a; }
+.page-head p { margin: 6px 0 0; color: #6b7280; }
+.page-filters { display: flex; gap: 12px; flex-shrink: 0; }
+.filter-field { display: flex; flex-direction: column; gap: 4px; }
+.filter-field__label { font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: #94a3b8; font-weight: 600; }
+.filter-select {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: #334155;
+    background: #fff;
+    cursor: pointer;
+}
+
+.chart-wrap { margin-bottom: 16px; }
+
+.table-card { background: #fff; border: 1px solid #eceef2; border-radius: 14px; overflow: hidden; }
+.table-card__foot { padding: 14px 18px; border-top: 1px solid #eceef2; font-size: 13px; font-weight: 600; color: #475569; }
+.table-wrap { overflow-x: auto; }
+.event-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.event-table th { text-align: left; padding: 12px 18px; color: #6b7280; font-weight: 600; background: #fafbfc; white-space: nowrap; }
+.event-table td { padding: 12px 18px; border-top: 1px solid #f1f2f5; color: #0f172a; white-space: nowrap; }
+.event-table tbody tr:hover td { background: #fafbfe; }
+.num { text-align: right; }
+.cap { text-transform: capitalize; }
+.sess { color: #64748b; }
+.empty { text-align: center; color: #94a3b8; padding: 28px; }
+
+.ev-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 60px 20px;
+    background: #fff;
+    border: 1px solid #eceef2;
+    border-radius: 14px;
+    color: #6b7280;
+}
+.state__icon { font-size: 28px; }
+.state h2 { margin: 0; font-size: 18px; color: #0f172a; }
+.state p { margin: 0; }
+.spinner {
+    width: 28px;
+    height: 28px;
+    border: 3px solid #eceef2;
+    border-top-color: #7c6cf5;
+    border-radius: 50%;
+    animation: spin 800ms linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
