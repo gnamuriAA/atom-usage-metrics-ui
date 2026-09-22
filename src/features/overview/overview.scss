@@ -13,6 +13,36 @@
     margin-bottom: 16px;
 }
 .chart-row--single { grid-template-columns: 1fr; }
+
+// 3 rows, 4 columns visible = 12 apps at a time; overflow scrolls horizontally.
+.app-grid {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(3, auto);
+    grid-auto-columns: max(240px, calc((100% - 3 * 18px) / 4));
+    gap: 18px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+}
+.app-card {
+    background: #fff;
+    border: 1px solid #eceef2;
+    border-radius: 18px;
+    padding: 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0;
+}
+.app-card__head { display: flex; align-items: center; gap: 14px; }
+.app-card__img { width: 46px; height: 46px; border-radius: 12px; object-fit: contain; }
+.app-card__name { font-size: 17px; font-weight: 700; color: #0f172a; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.app-card__metrics { display: flex; flex-direction: column; gap: 14px; }
+.app-metric { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.app-metric__label { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: #6b7280; font-weight: 600; }
+.app-metric__value { font-size: 22px; font-weight: 700; color: #0f172a; }
+
 @media (max-width: 1100px) {
     .stat-grid { grid-template-columns: repeat(2, 1fr); }
     .chart-row { grid-template-columns: 1fr; }
