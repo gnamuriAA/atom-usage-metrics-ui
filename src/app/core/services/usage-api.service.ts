@@ -1,9 +1,9 @@
 import { inject, Injectable } from "@angular/core";
 import { Apollo } from "apollo-angular";
 import { map, Observable } from "rxjs";
-import { AppUsageSessionDto, AppUsageSessionFilter, AppUsageSummaryDto, DeviceFilter, DeviceUsageSummaryDto } from "../models/metrics.models";
+import { AppUsageSessionDto, AppUsageSessionFilter, AppUsageSummaryDto, DeviceFilter, DeviceUsageSummaryDto, UserUsageSummaryDto } from "../models/metrics.models";
 import { deriveSessionStatus } from "../util/usage-mappers";
-import { APP_USAGE_SESSIONS, APP_USAGE_SUMMARY, DEVICE_USAGE_SUMMARY } from "../graphql/usage.queries";
+import { APP_USAGE_SESSIONS, APP_USAGE_SUMMARY, DEVICE_USAGE_SUMMARY, USER_USAGE_SUMMARY } from "../graphql/usage.queries";
 
 
 @Injectable({ providedIn: 'root' })
@@ -46,5 +46,15 @@ export class UsageApiService {
                 fetchPolicy: 'network-only',
             })
             .pipe(map((r) => r.data?.deviceUsageSummary ?? []));
+  }
+
+    getUserUsageSummary(filter: AppUsageSessionFilter = {}): Observable<UserUsageSummaryDto[]> {
+        return this.apollo
+            .query<{ userUsageSummary: UserUsageSummaryDto[] }>({
+                query: USER_USAGE_SUMMARY,
+                variables: { filter },
+                fetchPolicy: 'network-only',
+            })
+            .pipe(map((r) => r.data?.userUsageSummary ?? []));
   }
 }

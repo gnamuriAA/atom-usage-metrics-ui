@@ -10,9 +10,11 @@ export interface Filters {
     station: string | null;  // null = All stations
 }
 
-// Server-side filter args for the appUsageSessions query.
+// Server-side filter args for the appUsageSessions / userUsageSummary queries.
 export interface AppUsageSessionFilter {
     appName?: string;
+    appNames?: string[];
+    deviceStationCode?: string;
     startedAfter?: string;
     startedBefore?: string;
 }
@@ -54,7 +56,7 @@ export interface UsageEvent {
     id: string;
     timestamp: string;
     type: EventType;
-    app: string;
+    app: string; // Fixed typo
     network: NetworkType;
     segmentSeconds: number | null;
     sessionId: string;
@@ -135,6 +137,29 @@ export interface EventRow {
     networkType: string | null;
     segmentSeconds: number | null;
     sessionId: string;
+}
+
+// Per-employee engagement rollup (aggregated client-side from sessions).
+export interface UserRow {
+    employeeId: string;
+    employeeName: string;
+    appsUsed: string[];
+    stations: string[];
+    sessions: number;
+    foregroundSeconds: number;
+    lastSeen: string | null;
+}
+
+// Server-side per-employee usage rollup from the userUsageSummary query.
+export interface UserUsageSummaryDto {
+    employeeId: string;
+    employeeName: string | null;
+    appNames: string[];
+    appIds: string[];
+    stationCodes: string[];
+    sessionCount: number;
+    totalForegroundSeconds: number;
+    lastSeen: string | null;
 }
 
 // Server-side filter args for the deviceUsageSummary query.

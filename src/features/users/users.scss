@@ -4,26 +4,40 @@
 .table-card { background: #fff; border: 1px solid #eceef2; border-radius: 14px; overflow: hidden; }
 .table-card__foot { padding: 14px 18px; border-top: 1px solid #eceef2; font-size: 13px; font-weight: 600; color: #475569; }
 .table-wrap { overflow-x: auto; }
-.device-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.device-table th { text-align: left; padding: 12px 18px; color: #6b7280; font-weight: 600; background: #fafbfc; white-space: nowrap; }
-.device-table td { padding: 12px 18px; border-top: 1px solid #f1f2f5; color: #0f172a; white-space: nowrap; }
-.device-table tbody tr:hover td { background: #fafbfe; }
-.device-table th.num, .device-table td.num { text-align: right; }
+.user-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.user-table th { text-align: left; padding: 12px 18px; color: #6b7280; font-weight: 600; background: #fafbfc; white-space: nowrap; }
+.user-table td { padding: 12px 18px; border-top: 1px solid #f1f2f5; color: #0f172a; vertical-align: middle; }
+.user-table tbody tr:hover td { background: #fafbfe; }
+.num { text-align: right; white-space: nowrap; }
 .empty { text-align: center; color: #94a3b8; padding: 28px; }
+.muted { color: #94a3b8; }
 
-.device { display: flex; align-items: center; gap: 12px; }
-.device__ic {
+.user { display: flex; align-items: center; gap: 12px; }
+.user__avatar {
     flex: 0 0 auto;
     width: 34px;
     height: 34px;
-    border-radius: 10px;
+    border-radius: 50%;
     display: grid;
     place-items: center;
-    background: #f1f5f9;
-    color: #64748b;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
 }
-.device__serial { font-weight: 600; color: #0f172a; }
-.device__os { font-size: 12px; color: #94a3b8; }
+.user__name { font-weight: 600; color: #0f172a; white-space: nowrap; }
+.user__id { font-size: 12px; color: #94a3b8; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.chip--app { background: #eeecfe; color: #5b4bd6; }
+.chip--station { background: #e6f6f1; color: #0d9488; }
 
 .state {
     display: flex;

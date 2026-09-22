@@ -1,5 +1,5 @@
 
-import { AppUsageEventDto, AppUsageSessionDto, AppUsageSessionFilter, AppUsageSummaryDto, Breakdown, DateRange, DeviceFilter, EventRow, OverviewStats, SessionStatus } from '../models/metrics.models'
+import { AppUsageEventDto, AppUsageSessionDto, AppUsageSessionFilter, AppUsageSummaryDto, Breakdown, DateRange, DeviceFilter, EventRow, OverviewStats, SessionStatus, UserRow, UserUsageSummaryDto } from '../models/metrics.models'
 import { TrendPoint } from '../models/metrics.models';
 
 const RANGE_DAYS: Record<Exclude<DateRange, 'all'>, number> = { '24h': 1, '7d': 7, '30d': 30 };
@@ -37,6 +37,13 @@ export function toSessionFilter(range: DateRange, app: string | null): AppUsageS
         filter.startedAfter = after.toISOString();
         filter.startedBefore = now.toISOString();
     }
+    return filter;
+}
+
+// Users query honors the station filter too, via deviceStationCode.
+export function toUserFilter(range: DateRange, app: string | null, station: string | null): AppUsageSessionFilter {
+    const filter = toSessionFilter(range, app);
+    if (station) filter.deviceStationCode = station;
     return filter;
 }
 
@@ -130,4 +137,19 @@ export function toEventsPerHour(rows: EventRow[]): number[] {
         buckets[new Date(r.timestamp).getHours()] += 1;
     }
     return buckets;
+}
+
+// Maps the server userUsageSummary rows onto the Users table view model.
+export function toUserRows(rows: UserUsageSummaryDto[]): UserRow[] {
+    return rows
+        .map((r) => ({
+            employeeId: r.employeeId,
+            employeeName: r.employeeName ?? r.employeeId,
+            appsUsed: [...r.appNames].sort(),
+            stations: [...r.stationCodes].sort(),
+            sessions: r.sessionCount,
+            foregroundSeconds: r.totalForegroundSeconds,
+            lastSeen: r.lastSeen,
+        }))
+        .sort((a, b) => b.foregroundSeconds - a.foregroundSeconds);
 }

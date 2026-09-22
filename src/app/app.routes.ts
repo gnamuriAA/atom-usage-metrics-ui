@@ -18,5 +18,9 @@ export const routes: Routes = [
         path: 'devices',
         loadComponent: () => import('../features/devices/devices').then(m => m.Devices)
     },
+    {
+        path: 'users',
+        loadComponent: () => import('../features/users/users').then(m => m.Users)
+    },
     { path: '**', redirectTo: 'overview' }
 ];
