@@ -1,6 +1,5 @@
 import { Component, computed, inject } from "@angular/core";
 import { toSignal, toObservable } from "@angular/core/rxjs-interop";
-import { StatCard } from "../../app/shared/stat-card/stat-card";
 import { ChartCard } from "../../app/shared/chart-card/chart-card";
 import { MetricsDataService } from "../../app/core/services/metrics-data.service";
 import { EChartsCoreOption } from "echarts/types/dist/core";
@@ -9,7 +8,8 @@ import { AuthService } from "../../app/core/services/auth.service";
 import { AppUsageSessionDto, AppUsageSummaryDto } from "../../app/core/models/metrics.models";
 import { catchError, forkJoin, of, startWith, map, switchMap, Observable } from "rxjs";
 import {
-    toOverviewStats, toSessionTrend, toEventMix, toNetworkTypes, toTopApps, toTopStations, toSessionFilter
+    toEventMix, toNetworkTypes, toTopApps, toTopStations, toSessionFilter,
+    toStabilityTrend, toActiveUsersTrend, toAppUsageHeatmap, toSessionLengthDistribution
 } from "../../app/core/util/usage-mappers"
 import { FilterStateService } from "../../app/core/services/filter-state.service";
 
@@ -22,7 +22,7 @@ type OverviewSource = {
 @Component({
     selector: 'app-overview',
     standalone: true,
-    imports: [StatCard, ChartCard],
+    imports: [ChartCard],
     templateUrl: './overview.html',
     styleUrls: ['./overview.scss']
 })
@@ -34,10 +34,10 @@ export class Overview {
 
     readonly hasToken = computed(() => !!this.auth.token());
 
-    // Re-fetches whenever the auth token or the active filter (range/app) changes.
+    // Re-fetches whenever the auth token or the active filter (range/app/station) changes.
     private readonly request = computed(() => ({
         token: this.auth.token(),
-        filter: toSessionFilter(this.filterState.range(), this.filterState.app()),
+        filter: toSessionFilter(this.filterState.range(), this.filterState.app(), this.filterState.station(), this.filterState.employeeId()),
     }));
 
     private readonly source = toSignal(
@@ -61,12 +61,21 @@ export class Overview {
 
     readonly loading = computed(() => this.source().loading);
 
-    readonly stats = computed(() => {
-        const { summary, sessions } = this.source();
-        return sessions.length || summary.length ? toOverviewStats(summary, sessions) : undefined;
-    });
+    // Per-app engagement: how often each app was opened and its average foreground time.
+    readonly apps = computed(() =>
+        [...this.source().summary].sort((a, b) => b.sessionCount - a.sessionCount)
+    );
 
-    private readonly trend = computed(() => toSessionTrend(this.source().sessions));
+    // Placeholder icons until real per-app icons are wired in.
+    private readonly dummyIcons = ['assets/devices_icon.svg', 'assets/heartbeat_icon.svg', 'assets/users_icon.svg', 'assets/clock_icon.svg', 'assets/warning_icon.svg'];
+    appIcon(index: number): string {
+        return this.dummyIcons[index % this.dummyIcons.length];
+    }
+
+    private readonly stability = computed(() => toStabilityTrend(this.source().sessions));
+    private readonly activeUsers = computed(() => toActiveUsersTrend(this.source().sessions));
+    private readonly heatmap = computed(() => toAppUsageHeatmap(this.source().sessions));
+    private readonly sessionLengths = computed(() => toSessionLengthDistribution(this.source().sessions));
     private readonly eventMix = computed(() => toEventMix(this.source().sessions));
     private readonly network = computed(() => toNetworkTypes(this.source().sessions));
     private readonly topApps = computed(() => toTopApps(this.source().summary));
@@ -74,35 +83,91 @@ export class Overview {
 
     private readonly palette = ['#16a34a', '#7c6cf5', '#f43f5e', '#14b8a6', '#f59e0b'];
 
-  readonly trendOptions = computed<EChartsCoreOption>(() => {
-    const t = this.trend();
+  readonly stabilityOptions = computed<EChartsCoreOption>(() => {
+    const s = this.stability();
     return {
-      tooltip: { trigger: 'axis' },
-      legend: { data: ['Sessions', 'Foreground min'], top: 0, left: 0 },
-      grid: { left: 40, right: 40, top: 40, bottom: 30 },
-      xAxis: { type: 'category', boundaryGap: false, data: t.map((p) => p.date) },
-      yAxis: [{ type: 'value' }, { type: 'value' }],
+      tooltip: { trigger: 'axis', valueFormatter: (v: number) => `${(v * 100).toFixed(1)}%` },
+      legend: { data: ['Session end rate', 'Force-close rate', 'Crash rate'], top: 0, left: 0 },
+      grid: { left: 50, right: 20, top: 40, bottom: 30 },
+      xAxis: { type: 'category', boundaryGap: false, data: s.map((p) => p.date) },
+      yAxis: { type: 'value', axisLabel: { formatter: (v: number) => `${Math.round(v * 100)}%` } },
       series: [
         {
-          name: 'Sessions',
+          name: 'Session end rate',
           type: 'line',
           smooth: true,
-          areaStyle: { opacity: 0.25 },
-          itemStyle: { color: '#7c6cf5' },
-          data: t.map((p) => p.sessions),
+          itemStyle: { color: '#16a34a' },
+          data: s.map((p) => p.endRate),
         },
         {
-          name: 'Foreground min',
+          name: 'Force-close rate',
           type: 'line',
           smooth: true,
-          yAxisIndex: 1,
-          lineStyle: { type: 'dashed' },
-          itemStyle: { color: '#14b8a6' },
-          data: t.map((p) => p.foregroundMinutes),
+          areaStyle: { opacity: 0.2 },
+          itemStyle: { color: '#f59e0b' },
+          data: s.map((p) => p.forceCloseRate),
+        },
+        {
+          name: 'Crash rate',
+          type: 'line',
+          smooth: true,
+          itemStyle: { color: '#f43f5e' },
+          data: s.map((p) => p.crashRate),
         },
       ],
     };
   });
+
+  readonly dauOptions = computed<EChartsCoreOption>(() => {
+    const d = this.activeUsers();
+    return {
+      tooltip: { trigger: 'axis' },
+      grid: { left: 40, right: 20, top: 20, bottom: 30 },
+      xAxis: { type: 'category', boundaryGap: false, data: d.map((p) => p.date) },
+      yAxis: { type: 'value', minInterval: 1 },
+      series: [
+        {
+          name: 'Active users',
+          type: 'line',
+          smooth: true,
+          areaStyle: { opacity: 0.25 },
+          itemStyle: { color: '#16a34a' },
+          data: d.map((p) => p.users),
+        },
+      ],
+    };
+  });
+
+  readonly heatmapOptions = computed<EChartsCoreOption>(() => {
+    const h = this.heatmap();
+    const hours = Array.from({ length: 24 }, (_, i) => `${i}:00`);
+    return {
+      tooltip: { position: 'top' },
+      grid: { left: 120, right: 20, top: 10, bottom: 60 },
+      xAxis: { type: 'category', data: hours, splitArea: { show: true } },
+      yAxis: { type: 'category', data: h.apps, splitArea: { show: true } },
+      visualMap: {
+        min: 0,
+        max: h.max || 1,
+        calculable: true,
+        orient: 'horizontal',
+        left: 'center',
+        bottom: 0,
+        inRange: { color: ['#eef2ff', '#7c6cf5', '#4c1d95'] },
+      },
+      series: [
+        {
+          name: 'Sessions',
+          type: 'heatmap',
+          data: h.points,
+          label: { show: false },
+          emphasis: { itemStyle: { shadowBlur: 8, shadowColor: 'rgba(0,0,0,0.2)' } },
+        },
+      ],
+    };
+  });
+
+  readonly sessionLenOptions = computed<EChartsCoreOption>(() => this.barOptions(this.sessionLengths(), false, '#14b8a6'));
 
   readonly eventMixOptions = computed<EChartsCoreOption>(() => {
     const d = this.eventMix();
@@ -146,6 +211,7 @@ export class Overview {
     };
   }
     fmtDuration(totalSeconds: number): string {
+        totalSeconds = Math.round(totalSeconds);
         const h = Math.floor(totalSeconds / 3600);
         const m = Math.floor((totalSeconds % 3600) / 60);
         const s = totalSeconds % 60;

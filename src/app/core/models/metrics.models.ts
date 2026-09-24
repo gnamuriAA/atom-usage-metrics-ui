@@ -8,11 +8,15 @@ export interface Filters {
     range: DateRange;
     app: string | null;      // null = All apps 
     station: string | null;  // null = All stations
+    employeeId: string | null; // null = All employees
 }
 
-// Server-side filter args for the appUsageSessions query.
+// Server-side filter args for the appUsageSessions / userUsageSummary queries.
 export interface AppUsageSessionFilter {
     appName?: string;
+    appNames?: string[];
+    deviceStationCode?: string;
+    employeeId?: string;
     startedAfter?: string;
     startedBefore?: string;
 }
@@ -54,7 +58,7 @@ export interface UsageEvent {
     id: string;
     timestamp: string;
     type: EventType;
-    app: string;
+    app: string; // Fixed typo
     network: NetworkType;
     segmentSeconds: number | null;
     sessionId: string;
@@ -137,6 +141,29 @@ export interface EventRow {
     sessionId: string;
 }
 
+// Per-employee engagement rollup (aggregated client-side from sessions).
+export interface UserRow {
+    employeeId: string;
+    employeeName: string;
+    appsUsed: string[];
+    stations: string[];
+    sessions: number;
+    foregroundSeconds: number;
+    lastSeen: string | null;
+}
+
+// Server-side per-employee usage rollup from the userUsageSummary query.
+export interface UserUsageSummaryDto {
+    employeeId: string;
+    employeeName: string | null;
+    appNames: string[];
+    appIds: string[];
+    stationCodes: string[];
+    sessionCount: number;
+    totalForegroundSeconds: number;
+    lastSeen: string | null;
+}
+
 // Server-side filter args for the deviceUsageSummary query.
 export interface DeviceFilter {
     stationCode?: string;
@@ -154,4 +181,19 @@ export interface DeviceUsageSummaryDto {
     sessionCount: number;
     totalForegroundSeconds: number;
     lastSeen: string | null;
+}
+
+// Per-app reporting rollup used to populate the filter dropdowns.
+export interface ReportingApp {
+    appName: string;
+    appId: string;
+    stationCodes: string[];
+    eventCount: number;
+    lastSeen: string | null;
+}
+
+export interface AppUsageReportingApps {
+    appNames: string[];
+    stationCodes: string[];
+    apps: ReportingApp[];
 }

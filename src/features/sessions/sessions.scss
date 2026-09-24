@@ -28,7 +28,7 @@
         .badge--Active       { background: #dcfce7; color: #10b981; text-align: center; }
         .badge--Ended        { background: #dbeafe; color: #3b82f6; text-align: center; }
         .badge--Force-closed { background: #fef3c7; color: #b45309; text-align: center; }
-        .badge--Crash { font-weight: 500; color: #ef4444; text-align: center; }
+        .badge--Crash { background: #fee2e2; color: #ef4444; text-align: center; }
 
         .drawer-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.35); z-index: 40; }
         .drawer {

@@ -52,7 +52,7 @@ query AppUsageSummary($filter: AppUsageSessionFilter) {
 `;
 
 export const DEVICE_USAGE_SUMMARY = gql`
-query DeviceUsageSummary($filter: DeviceFilter, $startedAfter: DateTime, $startedBefore: DateTime) {
+query DeviceUsageSummary($filter: DeviceFilter, $startedAfter: DateTimeISO, $startedBefore: DateTimeISO) {
   deviceUsageSummary(filter: $filter, startedAfter: $startedAfter, startedBefore: $startedBefore) {
     deviceId
     serialNumber
@@ -62,6 +62,37 @@ query DeviceUsageSummary($filter: DeviceFilter, $startedAfter: DateTime, $starte
     sessionCount
     totalForegroundSeconds
     lastSeen
+  }
+}
+`;
+
+export const USER_USAGE_SUMMARY = gql`
+query UserUsageSummary($filter: AppUsageSessionFilter) {
+  userUsageSummary(filter: $filter) {
+    employeeId
+    employeeName
+    appNames
+    appIds
+    stationCodes
+    sessionCount
+    totalForegroundSeconds
+    lastSeen
+  }
+}
+`;
+
+export const APP_USAGE_REPORTING_APPS = gql`
+query AppUsageReportingApps($startedAfter: DateTimeISO, $startedBefore: DateTimeISO) {
+  appUsageReportingApps(filter: { startedAfter: $startedAfter, startedBefore: $startedBefore }) {
+    appNames
+    stationCodes
+    apps {
+      appName
+      appId
+      stationCodes
+      eventCount
+      lastSeen
+    }
   }
 }
 `;

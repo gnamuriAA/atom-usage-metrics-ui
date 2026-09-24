@@ -1,0 +1,73 @@
+<header class="page-head">
+    <h1>Users</h1>
+    <p>Engagement rollup per employee across apps and stations.</p>
+</header>
+
+@if (!hasToken()) {
+    <section class="state">
+        <span class="state__icon">🔑</span>
+        <h2>Access token required</h2>
+        <p>Please provide your API token to load users.</p>
+    </section>
+} @else if (loading()) {
+    <section class="state">
+        <span class="spinner" aria-hidden="true"></span>
+        <p>Loading users…</p>
+    </section>
+} @else {
+    <section class="table-card">
+        <div class="table-wrap">
+            <table class="user-table">
+                <thead>
+                    <tr>
+                        <th>EMPLOYEE</th>
+                        <th>APPS USED</th>
+                        <th>STATIONS</th>
+                        <th class="num">SESSIONS</th>
+                        <th class="num">FOREGROUND</th>
+                        <th>LAST SEEN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (u of users(); track u.employeeId) {
+                        <tr>
+                            <td>
+                                <div class="user">
+                                    <span class="user__avatar" [style.background]="avatarColor(u.employeeId)">{{ initials(u.employeeName) }}</span>
+                                    <div>
+                                        <div class="user__name">{{ u.employeeName }}</div>
+                                        <div class="user__id">{{ u.employeeId }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="chips">
+                                    @for (a of u.appsUsed; track a) {
+                                        <span class="chip chip--app">{{ a }}</span>
+                                    } @empty {
+                                        <span class="muted">—</span>
+                                    }
+                                </div>
+                            </td>
+                            <td>
+                                <div class="chips">
+                                    @for (s of u.stations; track s) {
+                                        <span class="chip chip--station">{{ s }}</span>
+                                    } @empty {
+                                        <span class="muted">—</span>
+                                    }
+                                </div>
+                            </td>
+                            <td class="num">{{ u.sessions }}</td>
+                            <td class="num">{{ fmtDuration(u.foregroundSeconds) }}</td>
+                            <td>{{ u.lastSeen ? (u.lastSeen | date: 'MMM d, hh:mm a') : '—' }}</td>
+                        </tr>
+                    } @empty {
+                        <tr><td class="empty" colspan="6">No users found.</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="table-card__foot">{{ users().length }} users</div>
+    </section>
+}
