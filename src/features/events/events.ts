@@ -30,10 +30,10 @@ export class Events {
     readonly eventType = signal<string>('');
     readonly network = signal<string>('');
 
-    // Re-fetches whenever the auth token or the global filter (range/app) changes.
+    // Re-fetches whenever the auth token or the global filter (range/app/station/employee) changes.
     private readonly request = computed(() => ({
         token: this.auth.token(),
-        filter: toSessionFilter(this.filterState.range(), this.filterState.app()),
+        filter: toSessionFilter(this.filterState.range(), this.filterState.app(), this.filterState.station(), this.filterState.employeeId()),
     }));
 
     private readonly source = toSignal(

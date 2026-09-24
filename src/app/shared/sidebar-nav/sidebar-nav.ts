@@ -16,7 +16,7 @@ interface NavItem {
       <div class="sidebar__brand">
         <span class="sidebar__logo">〰️</span>
         <div>
-          <div class="sidebar__title">Pulse</div>
+          <div class="sidebar__title">ATOM</div>
           <div class="sidebar__subtitle">Usage Metrics</div>
         </div>
       </div>
@@ -27,7 +27,7 @@ interface NavItem {
             [routerLink]="item.path"
             routerLinkActive="is-active"
           >
-            <span class="sidebar__link-icon">{{ item.icon }}</span>
+            <img class="sidebar__link-icon" [src]="item.icon" alt="" />
             {{ item.label }}
           </a>
         }
@@ -63,6 +63,7 @@ interface NavItem {
     .sidebar__title { font-weight: 700; color: #0f172a; }
     .sidebar__subtitle { font-size: 12px; color: #6b7280; }
     .sidebar__nav { display: flex; flex-direction: column; gap: 4px; }
+    .sidebar__link-icon { width: 18px; height: 18px; object-fit: contain; flex-shrink: 0; }
     .sidebar__link {
       display: flex;
       align-items: center;
@@ -84,10 +85,10 @@ interface NavItem {
 })
 export class SidebarNav {
   readonly items: NavItem[] = [
-    { label: 'Overview', path: 'overview', icon: '▦' },
-    { label: 'Sessions', path: 'sessions', icon: '▤' },
-    { label: 'Events', path: 'events', icon: '☷' },
-    { label: 'Devices', path: 'devices', icon: '▢' },
-    { label: 'Users', path: 'users', icon: '☺' },
+    { label: 'Overview', path: 'overview', icon: 'assets/overview_icon.svg' },
+    { label: 'Sessions', path: 'sessions', icon: 'assets/sessions_icon.svg' },
+    { label: 'Events', path: 'events', icon: 'assets/events_icon.svg' },
+    { label: 'Devices', path: 'devices', icon: 'assets/devices_dashboard_icon.svg' },
+    { label: 'Users', path: 'users', icon: 'assets/users_dashboard_icon.svg' },
   ];
 }

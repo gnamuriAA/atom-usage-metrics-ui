@@ -37,7 +37,7 @@ export class Overview {
     // Re-fetches whenever the auth token or the active filter (range/app/station) changes.
     private readonly request = computed(() => ({
         token: this.auth.token(),
-        filter: toSessionFilter(this.filterState.range(), this.filterState.app(), this.filterState.station()),
+        filter: toSessionFilter(this.filterState.range(), this.filterState.app(), this.filterState.station(), this.filterState.employeeId()),
     }));
 
     private readonly source = toSignal(

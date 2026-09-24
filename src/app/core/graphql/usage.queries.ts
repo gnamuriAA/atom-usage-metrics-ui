@@ -80,3 +80,19 @@ query UserUsageSummary($filter: AppUsageSessionFilter) {
   }
 }
 `;
+
+export const APP_USAGE_REPORTING_APPS = gql`
+query AppUsageReportingApps($startedAfter: DateTimeISO, $startedBefore: DateTimeISO) {
+  appUsageReportingApps(filter: { startedAfter: $startedAfter, startedBefore: $startedBefore }) {
+    appNames
+    stationCodes
+    apps {
+      appName
+      appId
+      stationCodes
+      eventCount
+      lastSeen
+    }
+  }
+}
+`;

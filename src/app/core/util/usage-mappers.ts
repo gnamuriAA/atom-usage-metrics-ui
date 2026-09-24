@@ -27,10 +27,12 @@ export function toDeviceQuery(range: DateRange, station: string | null): DeviceQ
 }
 
 // Maps the UI filter state onto the appUsageSessions query arguments.
-export function toSessionFilter(range: DateRange, app: string | null, station: string | null = null): AppUsageSessionFilter {
+export function toSessionFilter(range: DateRange, app: string | null, station: string | null = null, employeeId: string | null = null): AppUsageSessionFilter {
     const filter: AppUsageSessionFilter = {};
     if (app) filter.appName = app;
     if (station) filter.deviceStationCode = station;
+    const emp = employeeId?.trim();
+    if (emp) filter.employeeId = emp;
     if (range !== 'all') {
         const now = new Date();
         const after = new Date(now);
@@ -42,8 +44,8 @@ export function toSessionFilter(range: DateRange, app: string | null, station: s
 }
 
 // Users query honors the station filter too, via deviceStationCode.
-export function toUserFilter(range: DateRange, app: string | null, station: string | null): AppUsageSessionFilter {
-    return toSessionFilter(range, app, station);
+export function toUserFilter(range: DateRange, app: string | null, station: string | null, employeeId: string | null = null): AppUsageSessionFilter {
+    return toSessionFilter(range, app, station, employeeId);
 }
 
 function countBy<T>(items: T[], key: (i: T) => string | null | undefined): Breakdown[] {
@@ -98,13 +100,12 @@ export function toSessionTrend(session: AppUsageSessionDto[]): TrendPoint[] {
 }
 
 export function deriveSessionStatus(session: AppUsageSessionDto): SessionStatus {
-    const last = session.events?.length ? session.events.reduce((a,b) => new Date(b.timestamp) >= new Date(a.timestamp) ? b : a) : undefined;
-    switch (last?.eventType) {
-        case 'sessionEnd': return 'Ended';
-        case 'forceCloseCheck': return 'Force-closed';
-        case 'appCrash': return 'Crash';
-        default: return 'Active';
-    }
+    // Classify by presence, matching the backend: a crash outranks a force-close marker.
+    const types = new Set((session.events ?? []).map((e) => e.eventType));
+    if (types.has('appCrash')) return 'Crash';
+    if (types.has('forceCloseCheck')) return 'Force-closed';
+    if (types.has('sessionEnd')) return 'Ended';
+    return 'Active';
 }
 
 // Foreground span of an event, when both foreground/background endpoints exist.

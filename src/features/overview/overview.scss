@@ -14,15 +14,16 @@
 }
 .chart-row--single { grid-template-columns: 1fr; }
 
-// 3 rows, 4 columns visible = 12 apps at a time; overflow scrolls horizontally.
+// Wraps left->right; caps the visible area at 3 rows, extra apps scroll vertically.
 .app-grid {
+    --card-h: 184px;
     display: grid;
-    grid-auto-flow: column;
-    grid-template-rows: repeat(3, auto);
-    grid-auto-columns: max(240px, calc((100% - 3 * 18px) / 4));
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-auto-rows: var(--card-h);
     gap: 18px;
-    overflow-x: auto;
-    padding-bottom: 8px;
+    max-height: calc(var(--card-h) * 3 + 18px * 2);
+    overflow-y: auto;
+    padding-right: 4px;
     margin-bottom: 20px;
 }
 .app-card {

@@ -30,7 +30,7 @@ export class Users {
     // Re-fetches whenever the auth token or the global filter (range/app/station) changes.
     private readonly request = computed(() => ({
         token: this.auth.token(),
-        filter: toUserFilter(this.filterState.range(), this.filterState.app(), this.filterState.station()),
+        filter: toUserFilter(this.filterState.range(), this.filterState.app(), this.filterState.station(), this.filterState.employeeId()),
     }));
 
     private readonly source = toSignal(

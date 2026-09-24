@@ -8,6 +8,7 @@ export interface Filters {
     range: DateRange;
     app: string | null;      // null = All apps 
     station: string | null;  // null = All stations
+    employeeId: string | null; // null = All employees
 }
 
 // Server-side filter args for the appUsageSessions / userUsageSummary queries.
@@ -15,6 +16,7 @@ export interface AppUsageSessionFilter {
     appName?: string;
     appNames?: string[];
     deviceStationCode?: string;
+    employeeId?: string;
     startedAfter?: string;
     startedBefore?: string;
 }
@@ -179,4 +181,19 @@ export interface DeviceUsageSummaryDto {
     sessionCount: number;
     totalForegroundSeconds: number;
     lastSeen: string | null;
+}
+
+// Per-app reporting rollup used to populate the filter dropdowns.
+export interface ReportingApp {
+    appName: string;
+    appId: string;
+    stationCodes: string[];
+    eventCount: number;
+    lastSeen: string | null;
+}
+
+export interface AppUsageReportingApps {
+    appNames: string[];
+    stationCodes: string[];
+    apps: ReportingApp[];
 }
