@@ -54,6 +54,10 @@ ng e2e
 
 Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 
+## User journey
+
+The app now includes a **Journey** view at `/journey` that shows each employee's app sequence on the device. It groups sessions per user and displays how long an app stayed in the foreground before being backgrounded, plus the next app opened afterward, alongside the total foreground time for the journey.
+
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

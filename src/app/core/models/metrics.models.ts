@@ -152,6 +152,25 @@ export interface UserRow {
     lastSeen: string | null;
 }
 
+// A single step in a user's app journey: how long they stayed foreground on one app
+// before backgrounding it, and which app they opened next.
+export interface JourneyStep {
+    sessionId: string;
+    appName: string;
+    station: string | null;
+    startedAt: string;
+    foregroundSeconds: number;
+    nextApp: string | null;
+}
+
+// A chronological journey of one employee across apps/sessions on the device.
+export interface UserJourney {
+    employeeId: string;
+    employeeName: string;
+    steps: JourneyStep[];
+    totalForegroundSeconds: number;
+}
+
 // Server-side per-employee usage rollup from the userUsageSummary query.
 export interface UserUsageSummaryDto {
     employeeId: string;

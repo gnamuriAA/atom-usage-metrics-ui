@@ -1,0 +1,101 @@
+.page-head h1 { margin: 0; font-size: 28px; font-weight: 700; color: #0f172a; }
+.page-head p { margin: 6px 0 22px; color: #6b7280; max-width: 640px; }
+
+.journey-card {
+    background: #fff;
+    border: 1px solid #eceef2;
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+}
+.journey-card__head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #f1f2f5;
+}
+.journey-card__meta { margin-left: auto; display: flex; gap: 18px; }
+.journey-card__stat { font-size: 13px; font-weight: 600; color: #475569; white-space: nowrap; }
+
+.user__avatar {
+    flex: 0 0 auto;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+}
+.user__name { font-weight: 600; color: #0f172a; }
+.user__id { font-size: 12px; color: #94a3b8; }
+
+.journey { list-style: none; margin: 16px 0 0; padding: 0; }
+.journey__step {
+    position: relative;
+    display: flex;
+    gap: 14px;
+    padding: 0 0 18px 4px;
+}
+.journey__step:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 9px;
+    top: 16px;
+    bottom: 0;
+    width: 2px;
+    background: #eceef2;
+}
+.journey__dot {
+    flex: 0 0 auto;
+    width: 12px;
+    height: 12px;
+    margin-top: 4px;
+    border-radius: 50%;
+    background: #7c6cf5;
+    box-shadow: 0 0 0 3px #eeecfe;
+    z-index: 1;
+}
+.journey__body { flex: 1; }
+.journey__head { display: flex; align-items: center; gap: 10px; }
+.journey__time { font-size: 12px; color: #94a3b8; }
+.journey__meta { font-size: 13px; color: #475569; margin-top: 4px; }
+.journey__next { font-size: 13px; color: #0f172a; margin-top: 4px; }
+.journey__next strong { color: #5b4bd6; }
+
+.chip {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.chip--app { background: #eeecfe; color: #5b4bd6; }
+.muted { color: #94a3b8; }
+
+.state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 60px 20px;
+    background: #fff;
+    border: 1px solid #eceef2;
+    border-radius: 14px;
+    color: #6b7280;
+}
+.state__icon { font-size: 28px; }
+.state h2 { margin: 0; font-size: 18px; color: #0f172a; }
+.state p { margin: 0; }
+.spinner {
+    width: 28px;
+    height: 28px;
+    border: 3px solid #eceef2;
+    border-top-color: #7c6cf5;
+    border-radius: 50%;
+    animation: spin 800ms linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
