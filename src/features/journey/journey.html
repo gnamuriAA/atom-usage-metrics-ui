@@ -1,0 +1,62 @@
+<header class="page-head">
+    <h1>User Journey</h1>
+    <p>Follow each employee across apps — how long they stayed foreground before backgrounding, and which app they opened next.</p>
+</header>
+
+@if (!hasToken()) {
+    <section class="state">
+        <span class="state__icon">🔑</span>
+        <h2>Access token required</h2>
+        <p>Please provide your API token to load user journeys.</p>
+    </section>
+} @else if (loading()) {
+    <section class="state">
+        <span class="spinner" aria-hidden="true"></span>
+        <p>Loading journeys…</p>
+    </section>
+} @else {
+    @for (j of journeys(); track j.employeeId) {
+        <section class="journey-card">
+            <div class="journey-card__head">
+                <span class="user__avatar" [style.background]="avatarColor(j.employeeId)">{{ initials(j.employeeName) }}</span>
+                <div>
+                    <div class="user__name">{{ j.employeeName }}</div>
+                    <div class="user__id">{{ j.employeeId }}</div>
+                </div>
+                <div class="journey-card__meta">
+                    <span class="journey-card__stat">{{ j.steps.length }} steps</span>
+                    <span class="journey-card__stat">{{ fmtDuration(j.totalForegroundSeconds) }} foreground</span>
+                </div>
+            </div>
+
+            <ol class="journey">
+                @for (step of j.steps; track step.sessionId) {
+                    <li class="journey__step">
+                        <span class="journey__dot"></span>
+                        <div class="journey__body">
+                            <div class="journey__head">
+                                <span class="chip chip--app">{{ step.appName }}</span>
+                                <span class="journey__time">{{ step.startedAt | date: 'MMM d, hh:mm a' }}</span>
+                            </div>
+                            <div class="journey__meta">
+                                Foreground {{ fmtDuration(step.foregroundSeconds) }}
+                                @if (step.station) { · station {{ step.station }} }
+                            </div>
+                            @if (step.nextApp) {
+                                <div class="journey__next">Backgrounded → opened <strong>{{ step.nextApp }}</strong></div>
+                            } @else {
+                                <div class="journey__next muted">Backgrounded — end of journey</div>
+                            }
+                        </div>
+                    </li>
+                }
+            </ol>
+        </section>
+    } @empty {
+        <section class="state">
+            <span class="state__icon">🧭</span>
+            <h2>No journeys found</h2>
+            <p>No sessions match the current filters.</p>
+        </section>
+    }
+}

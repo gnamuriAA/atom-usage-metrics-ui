@@ -1,5 +1,5 @@
 
-import { AppUsageEventDto, AppUsageSessionDto, AppUsageSessionFilter, AppUsageSummaryDto, Breakdown, DateRange, DeviceFilter, EventRow, OverviewStats, SessionStatus, UserRow, UserUsageSummaryDto } from '../models/metrics.models'
+import { AppUsageEventDto, AppUsageSessionDto, AppUsageSessionFilter, AppUsageSummaryDto, Breakdown, DateRange, DeviceFilter, EventRow, JourneyStep, OverviewStats, SessionStatus, UserJourney, UserRow, UserUsageSummaryDto } from '../models/metrics.models'
 import { TrendPoint } from '../models/metrics.models';
 
 const RANGE_DAYS: Record<Exclude<DateRange, 'all'>, number> = { '24h': 1, '7d': 7, '30d': 30 };
@@ -152,6 +152,38 @@ export function toUserRows(rows: UserUsageSummaryDto[]): UserRow[] {
             lastSeen: r.lastSeen,
         }))
         .sort((a, b) => b.foregroundSeconds - a.foregroundSeconds);
+}
+
+// Builds a per-employee chronological journey across sessions: each step captures how long
+// the user stayed foreground on an app before backgrounding it, and which app came next.
+export function toUserJourneys(sessions: AppUsageSessionDto[]): UserJourney[] {
+    const byUser = new Map<string, AppUsageSessionDto[]>();
+    for (const s of sessions) {
+        const list = byUser.get(s.employeeId) ?? [];
+        list.push(s);
+        byUser.set(s.employeeId, list);
+    }
+    return [...byUser.entries()]
+        .map(([employeeId, userSessions]) => {
+            const ordered = [...userSessions].sort(
+                (a, b) => new Date(a.sessionStartTime).getTime() - new Date(b.sessionStartTime).getTime()
+            );
+            const steps: JourneyStep[] = ordered.map((s, i) => ({
+                sessionId: s.sessionId,
+                appName: s.appName,
+                station: s.deviceStationCode,
+                startedAt: s.sessionStartTime,
+                foregroundSeconds: s.foregroundDurationSeconds,
+                nextApp: i < ordered.length - 1 ? ordered[i + 1].appName : null,
+            }));
+            return {
+                employeeId,
+                employeeName: ordered[0].employeeName ?? employeeId,
+                steps,
+                totalForegroundSeconds: ordered.reduce((sum, s) => sum + s.foregroundDurationSeconds, 0),
+            };
+        })
+        .sort((a, b) => b.totalForegroundSeconds - a.totalForegroundSeconds);
 }
 
 // --- Overview analytics mappers ---

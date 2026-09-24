@@ -90,5 +90,6 @@ export class SidebarNav {
     { label: 'Events', path: 'events', icon: 'assets/events_icon.svg' },
     { label: 'Devices', path: 'devices', icon: 'assets/devices_dashboard_icon.svg' },
     { label: 'Users', path: 'users', icon: 'assets/users_dashboard_icon.svg' },
+    { label: 'Journey', path: 'journey', icon: 'assets/clock_icon.svg' },
   ];
 }
