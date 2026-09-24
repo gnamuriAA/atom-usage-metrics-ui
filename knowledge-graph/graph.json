@@ -1,0 +1,770 @@
+{
+  "meta": {
+    "version": 1,
+    "lastBuilt": "",
+    "repos": [
+      "atom-usage-metrics-ui"
+    ],
+    "nodeCount": 33,
+    "edgeCount": 32,
+    "repoBreakdown": [
+      {
+        "repo": "atom-usage-metrics-ui",
+        "docCount": 1,
+        "nodeCount": 33,
+        "edgeCount": 32
+      }
+    ],
+    "documents": []
+  },
+  "nodes": [
+    {
+      "id": "service:atom-usage-metrics-ui",
+      "type": "service",
+      "name": "atom-usage-metrics-ui",
+      "description": "Repository root.",
+      "properties": {},
+      "sources": [
+        "atom-usage-metrics-ui"
+      ]
+    },
+    {
+      "id": "document:atom-usage-metrics-ui/README.md",
+      "type": "document",
+      "name": "README.md",
+      "description": "",
+      "properties": {
+        "path": "README.md"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/README.md"
+      ]
+    },
+    {
+      "id": "config:atom-usage-metrics-ui/package.json",
+      "type": "config",
+      "name": "package.json",
+      "description": "",
+      "properties": {
+        "path": "package.json"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/package.json"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/app.config.ts",
+      "type": "service",
+      "name": "app.config.ts",
+      "description": "",
+      "properties": {
+        "path": "src/app/app.config.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/app/app.config.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/app.routes.spec.ts",
+      "type": "service",
+      "name": "app.routes.spec.ts",
+      "description": "",
+      "properties": {
+        "path": "src/app/app.routes.spec.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/app/app.routes.spec.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/app.routes.ts",
+      "type": "service",
+      "name": "app.routes.ts",
+      "description": "",
+      "properties": {
+        "path": "src/app/app.routes.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/app/app.routes.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/app.spec.ts",
+      "type": "service",
+      "name": "app.spec.ts",
+      "description": "",
+      "properties": {
+        "path": "src/app/app.spec.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/app/app.spec.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/app.ts",
+      "type": "service",
+      "name": "app.ts",
+      "description": "",
+      "properties": {
+        "path": "src/app/app.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/app/app.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/core/graphql/usage.queries.ts",
+      "type": "service",
+      "name": "usage.queries.ts",
+      "description": "",
+      "properties": {
+        "path": "src/app/core/graphql/usage.queries.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/app/core/graphql/usage.queries.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/core/interceptors/auth.interceptor.ts",
+      "type": "service",
+      "name": "auth.interceptor.ts",
+      "description": "",
+      "properties": {
+        "path": "src/app/core/interceptors/auth.interceptor.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/app/core/interceptors/auth.interceptor.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/core/models/metrics.models.ts",
+      "type": "service",
+      "name": "metrics.models.ts",
+      "description": "",
+      "properties": {
+        "path": "src/app/core/models/metrics.models.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/app/core/models/metrics.models.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/core/services/auth.service.ts",
+      "type": "service",
+      "name": "auth.service.ts",
+      "description": "",
+      "properties": {
+        "path": "src/app/core/services/auth.service.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/app/core/services/auth.service.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/core/services/filter-state.service.ts",
+      "type": "service",
+      "name": "filter-state.service.ts",
+      "description": "",
+      "properties": {
+        "path": "src/app/core/services/filter-state.service.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/app/core/services/filter-state.service.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/core/services/metrics-data.service.ts",
+      "type": "service",
+      "name": "metrics-data.service.ts",
+      "description": "",
+      "properties": {
+        "path": "src/app/core/services/metrics-data.service.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/app/core/services/metrics-data.service.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/core/services/usage-api.service.ts",
+      "type": "service",
+      "name": "usage-api.service.ts",
+      "description": "",
+      "properties": {
+        "path": "src/app/core/services/usage-api.service.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/app/core/services/usage-api.service.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/core/util/format.ts",
+      "type": "service",
+      "name": "format.ts",
+      "description": "",
+      "properties": {
+        "path": "src/app/core/util/format.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/app/core/util/format.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/core/util/usage-mappers.spec.ts",
+      "type": "service",
+      "name": "usage-mappers.spec.ts",
+      "description": "",
+      "properties": {
+        "path": "src/app/core/util/usage-mappers.spec.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/app/core/util/usage-mappers.spec.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/core/util/usage-mappers.ts",
+      "type": "service",
+      "name": "usage-mappers.ts",
+      "description": "",
+      "properties": {
+        "path": "src/app/core/util/usage-mappers.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/app/core/util/usage-mappers.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/service/icon.service.ts",
+      "type": "service",
+      "name": "icon.service.ts",
+      "description": "",
+      "properties": {
+        "path": "src/app/service/icon.service.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/app/service/icon.service.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/shared/chart-card/chart-card.ts",
+      "type": "service",
+      "name": "chart-card.ts",
+      "description": "",
+      "properties": {
+        "path": "src/app/shared/chart-card/chart-card.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/app/shared/chart-card/chart-card.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/shared/sidebar-nav/sidebar-nav.spec.ts",
+      "type": "service",
+      "name": "sidebar-nav.spec.ts",
+      "description": "",
+      "properties": {
+        "path": "src/app/shared/sidebar-nav/sidebar-nav.spec.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/app/shared/sidebar-nav/sidebar-nav.spec.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/shared/sidebar-nav/sidebar-nav.ts",
+      "type": "service",
+      "name": "sidebar-nav.ts",
+      "description": "",
+      "properties": {
+        "path": "src/app/shared/sidebar-nav/sidebar-nav.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/app/shared/sidebar-nav/sidebar-nav.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/shared/stat-card/stat-card.ts",
+      "type": "service",
+      "name": "stat-card.ts",
+      "description": "",
+      "properties": {
+        "path": "src/app/shared/stat-card/stat-card.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/app/shared/stat-card/stat-card.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/shared/top-filter-bar/top-filter-bar.ts",
+      "type": "service",
+      "name": "top-filter-bar.ts",
+      "description": "",
+      "properties": {
+        "path": "src/app/shared/top-filter-bar/top-filter-bar.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/app/shared/top-filter-bar/top-filter-bar.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/environment/environment.ts",
+      "type": "service",
+      "name": "environment.ts",
+      "description": "",
+      "properties": {
+        "path": "src/environment/environment.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/environment/environment.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/features/devices/devices.ts",
+      "type": "service",
+      "name": "devices.ts",
+      "description": "",
+      "properties": {
+        "path": "src/features/devices/devices.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/features/devices/devices.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/features/events/events.ts",
+      "type": "service",
+      "name": "events.ts",
+      "description": "",
+      "properties": {
+        "path": "src/features/events/events.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/features/events/events.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/features/journey/journey.spec.ts",
+      "type": "service",
+      "name": "journey.spec.ts",
+      "description": "",
+      "properties": {
+        "path": "src/features/journey/journey.spec.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/features/journey/journey.spec.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/features/journey/journey.ts",
+      "type": "service",
+      "name": "journey.ts",
+      "description": "",
+      "properties": {
+        "path": "src/features/journey/journey.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/features/journey/journey.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/features/overview/overview.ts",
+      "type": "service",
+      "name": "overview.ts",
+      "description": "",
+      "properties": {
+        "path": "src/features/overview/overview.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/features/overview/overview.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/features/sessions/sessions.ts",
+      "type": "service",
+      "name": "sessions.ts",
+      "description": "",
+      "properties": {
+        "path": "src/features/sessions/sessions.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/features/sessions/sessions.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/features/users/users.ts",
+      "type": "service",
+      "name": "users.ts",
+      "description": "",
+      "properties": {
+        "path": "src/features/users/users.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/features/users/users.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/main.ts",
+      "type": "service",
+      "name": "main.ts",
+      "description": "",
+      "properties": {
+        "path": "src/main.ts"
+      },
+      "sources": [
+        "atom-usage-metrics-ui/src/main.ts"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "document:atom-usage-metrics-ui/README.md->PART_OF->service:atom-usage-metrics-ui",
+      "source": "document:atom-usage-metrics-ui/README.md",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/README.md"
+      ]
+    },
+    {
+      "id": "config:atom-usage-metrics-ui/package.json->PART_OF->service:atom-usage-metrics-ui",
+      "source": "config:atom-usage-metrics-ui/package.json",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/package.json"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/app.config.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/app/app.config.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/app/app.config.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/app.routes.spec.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/app/app.routes.spec.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/app/app.routes.spec.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/app.routes.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/app/app.routes.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/app/app.routes.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/app.spec.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/app/app.spec.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/app/app.spec.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/app.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/app/app.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/app/app.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/core/graphql/usage.queries.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/app/core/graphql/usage.queries.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/app/core/graphql/usage.queries.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/core/interceptors/auth.interceptor.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/app/core/interceptors/auth.interceptor.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/app/core/interceptors/auth.interceptor.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/core/models/metrics.models.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/app/core/models/metrics.models.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/app/core/models/metrics.models.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/core/services/auth.service.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/app/core/services/auth.service.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/app/core/services/auth.service.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/core/services/filter-state.service.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/app/core/services/filter-state.service.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/app/core/services/filter-state.service.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/core/services/metrics-data.service.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/app/core/services/metrics-data.service.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/app/core/services/metrics-data.service.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/core/services/usage-api.service.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/app/core/services/usage-api.service.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/app/core/services/usage-api.service.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/core/util/format.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/app/core/util/format.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/app/core/util/format.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/core/util/usage-mappers.spec.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/app/core/util/usage-mappers.spec.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/app/core/util/usage-mappers.spec.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/core/util/usage-mappers.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/app/core/util/usage-mappers.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/app/core/util/usage-mappers.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/service/icon.service.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/app/service/icon.service.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/app/service/icon.service.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/shared/chart-card/chart-card.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/app/shared/chart-card/chart-card.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/app/shared/chart-card/chart-card.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/shared/sidebar-nav/sidebar-nav.spec.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/app/shared/sidebar-nav/sidebar-nav.spec.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/app/shared/sidebar-nav/sidebar-nav.spec.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/shared/sidebar-nav/sidebar-nav.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/app/shared/sidebar-nav/sidebar-nav.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/app/shared/sidebar-nav/sidebar-nav.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/shared/stat-card/stat-card.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/app/shared/stat-card/stat-card.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/app/shared/stat-card/stat-card.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/app/shared/top-filter-bar/top-filter-bar.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/app/shared/top-filter-bar/top-filter-bar.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/app/shared/top-filter-bar/top-filter-bar.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/environment/environment.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/environment/environment.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/environment/environment.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/features/devices/devices.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/features/devices/devices.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/features/devices/devices.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/features/events/events.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/features/events/events.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/features/events/events.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/features/journey/journey.spec.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/features/journey/journey.spec.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/features/journey/journey.spec.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/features/journey/journey.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/features/journey/journey.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/features/journey/journey.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/features/overview/overview.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/features/overview/overview.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/features/overview/overview.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/features/sessions/sessions.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/features/sessions/sessions.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/features/sessions/sessions.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/features/users/users.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/features/users/users.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/features/users/users.ts"
+      ]
+    },
+    {
+      "id": "service:atom-usage-metrics-ui/src/main.ts->PART_OF->service:atom-usage-metrics-ui",
+      "source": "service:atom-usage-metrics-ui/src/main.ts",
+      "target": "service:atom-usage-metrics-ui",
+      "type": "PART_OF",
+      "description": "",
+      "weight": 1,
+      "sources": [
+        "atom-usage-metrics-ui/src/main.ts"
+      ]
+    }
+  ]
+}
